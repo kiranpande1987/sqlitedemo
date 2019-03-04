@@ -1,9 +1,13 @@
 package com.i64bits.sqlitedemo;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.util.Log;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utils
 {
@@ -33,5 +37,21 @@ public class Utils
         }
 
         return contentValues;
+    }
+
+    public static List<User> cursorToModel(Cursor cursor)
+    {
+        List<User> users = new ArrayList<>();
+
+        if(cursor != null && cursor.getCount() > 0)
+        {
+            while (cursor.moveToNext())
+            {
+                User user = new User(cursor.getString(1), cursor.getInt(2), cursor.getString(3));
+                users.add(user);
+            }
+        }
+
+        return users;
     }
 }

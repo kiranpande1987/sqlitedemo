@@ -6,6 +6,18 @@ public class User
     private Integer age = 22;
     private String location = "Pune";
 
+    public User()
+    {
+
+    }
+
+    public User(String name, Integer age, String location)
+    {
+        this.name = name;
+        this.age = age;
+        this.location = location;
+    }
+
     public String getName() {
         return name;
     }

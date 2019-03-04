@@ -2,9 +2,12 @@ package com.i64bits.sqlitedemo;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper
 {
@@ -43,5 +46,18 @@ public class DBHelper extends SQLiteOpenHelper
         long result = db.insert(TABLE_NAME, null, contentValues);
 
         return (result != -1);
+    }
+
+    public List<User> getUsers()
+    {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("select * from "+TABLE_NAME, null);
+
+        List<User> users = Utils.cursorToModel(cursor);
+
+        Log.e(TAG, "getUsers: USERS SIZE : "+users.size());
+
+        return users;
     }
 }
