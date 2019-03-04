@@ -14,9 +14,9 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String TABLE_NAME = "User";
 
     public static final String COL_0 = "ID";
-    public static final String COL_1 = "NAME";
-    public static final String COL_2 = "AGE";
-    public static final String COL_3 = "LOCATION";
+    public static final String COL_1 = "name";
+    public static final String COL_2 = "age";
+    public static final String COL_3 = "location";
 
     public DBHelper(Context context)
     {
@@ -25,7 +25,7 @@ public class DBHelper extends SQLiteOpenHelper
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table "+TABLE_NAME+"(ID PRIMARY KEY AUTOINCREMENT, NAME TEXT, AGE INTEGER, LOCATION TEXT)");
+        db.execSQL("create table "+TABLE_NAME+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, AGE INTEGER, LOCATION TEXT)");
         Log.e(TAG, "onCreate() returned: " + "CALLED");
     }
 
@@ -42,6 +42,6 @@ public class DBHelper extends SQLiteOpenHelper
 
         long result = db.insert(TABLE_NAME, null, contentValues);
 
-        return (result == -1);
+        return (result != -1);
     }
 }

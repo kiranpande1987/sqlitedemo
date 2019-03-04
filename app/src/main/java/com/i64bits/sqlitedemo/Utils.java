@@ -13,18 +13,23 @@ public class Utils
     {
         ContentValues contentValues = new ContentValues();
 
-        for (Field field: model.getClass().getDeclaredFields()) 
+        try
         {
-            field.setAccessible(true);
-            String name = field.getName();
-            Object value = null;
-            try {
-                value = field.get(model);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            for (Field field: model.getClass().getDeclaredFields())
+            {
+                field.setAccessible(true);
+                String name = field.getName();
+                Object value = field.get(model);
+
+                Log.e(TAG, "modelToContentView: "+ name + "-" + value.toString());
+
+                contentValues.put(name, value.toString());
             }
-            Log.e(TAG, "modelToContentView: "+ name + "-" + value.toString());
-            
+        }
+        catch (IllegalAccessException e)
+        {
+            Log.e(TAG, "modelToContentValues: Exception : ContentValue Cleared : " + e.getLocalizedMessage());
+            contentValues.clear();
         }
 
         return contentValues;
