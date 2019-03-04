@@ -54,4 +54,9 @@ public class Utils
 
         return users;
     }
+
+    public static boolean isNullOrEmpty(String string)
+    {
+        return (string == null || string.isEmpty());
+    }
 }

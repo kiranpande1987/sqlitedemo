@@ -60,4 +60,13 @@ public class DBHelper extends SQLiteOpenHelper
 
         return users;
     }
+
+    public boolean deleteUser(String userName)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+
+        long result = db.delete(TABLE_NAME, "NAME = ?", new String[] { userName });
+
+        return (result != -1);
+    }
 }

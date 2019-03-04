@@ -3,12 +3,15 @@ package com.i64bits.sqlitedemo;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.i64bits.sqlitedemo.databinding.ActivityMainBinding;
 
@@ -44,6 +47,23 @@ public class MainActivity extends AppCompatActivity {
                 updateUsersList();
             }
         });
+
+        binding.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteSelectedUser();
+                updateUsersList();
+            }
+        });
+
+        binding.lstUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String userName = ((TextView)view).getText().toString();
+
+                if(!Utils.isNullOrEmpty(userName)) binding.edtName.setText(userName);
+            }
+        });
     }
 
     public void insertUserIntoDatabase()
@@ -72,5 +92,12 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, android.R.id.text1, values);
 
         binding.lstUsers.setAdapter(adapter);
+    }
+
+    public void deleteSelectedUser()
+    {
+        String userName = binding.edtName.getText().toString();
+
+        if(!Utils.isNullOrEmpty(userName)) dbHelper.deleteUser(userName);
     }
 }
