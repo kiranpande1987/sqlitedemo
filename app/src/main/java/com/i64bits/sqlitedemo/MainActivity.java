@@ -25,7 +25,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private DBHelper dbHelper;
 
-    ActivityMainBinding binding;
+    private ActivityMainBinding binding;
+
+    private List<User> users;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +62,17 @@ public class MainActivity extends AppCompatActivity {
         binding.lstUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String userName = ((TextView)view).getText().toString();
 
-                if(!Utils.isNullOrEmpty(userName)) binding.edtName.setText(userName);
+                setValues(user = users.get(position));
+
+            }
+        });
+
+        binding.btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateUser();
+                updateUsersList();
             }
         });
     }
@@ -75,9 +86,18 @@ public class MainActivity extends AppCompatActivity {
         dbHelper.insert(user);
     }
 
+    public void updateUser()
+    {
+        User user = new User(binding.edtName.getText().toString(),
+                Integer.parseInt(binding.edtAge.getText().toString()),
+                binding.edtLocation.getText().toString());
+
+        dbHelper.updateUser(this.user.getId(), Utils.modelToContentValues(user));
+    }
+
     public void updateUsersList()
     {
-        final List<User> users = dbHelper.getUsers();
+        users = dbHelper.getUsers();
 
         Collections.reverse(users);
 
@@ -99,5 +119,12 @@ public class MainActivity extends AppCompatActivity {
         String userName = binding.edtName.getText().toString();
 
         if(!Utils.isNullOrEmpty(userName)) dbHelper.deleteUser(userName);
+    }
+
+    public void setValues(User user)
+    {
+        binding.edtName.setText(user.getName()+"");
+        binding.edtAge.setText(user.getAge()+"");
+        binding.edtLocation.setText(user.getLocation()+"");
     }
 }

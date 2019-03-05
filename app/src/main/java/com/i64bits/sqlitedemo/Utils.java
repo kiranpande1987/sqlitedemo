@@ -25,6 +25,8 @@ public class Utils
                 String name = field.getName();
                 Object value = field.get(model);
 
+                if(value.toString().equalsIgnoreCase("-1")) continue;
+
                 Log.e(TAG, "modelToContentView: "+ name + "-" + value.toString());
 
                 contentValues.put(name, value.toString());

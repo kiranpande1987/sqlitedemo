@@ -2,6 +2,8 @@ package com.i64bits.sqlitedemo;
 
 public class User
 {
+    private long id = -1;
+
     private String name = "Kiran";
     private Integer age = 22;
     private String location = "Pune";
@@ -16,6 +18,10 @@ public class User
         this.name = name;
         this.age = age;
         this.location = location;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getName() {

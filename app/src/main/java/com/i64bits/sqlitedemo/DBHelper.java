@@ -69,4 +69,13 @@ public class DBHelper extends SQLiteOpenHelper
 
         return (result != -1);
     }
+
+    public boolean updateUser(long id, ContentValues values)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+
+        long result = db.update(TABLE_NAME, values, "ID = ?", new String[] { id+"" });
+
+        return (result != -1);
+    }
 }
